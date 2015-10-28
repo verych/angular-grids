@@ -1,0 +1,26 @@
+﻿<!DOCTYPE html>
+<html ng-app="showcase" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Grid test</title>
+    <script src="js/jquery.js"></script>
+    <script src="js/angular.js"></script>
+    <script src="js/jquery.dataTables.js"></script>
+    <script src="js/angular-datatables.js"></script>
+    <script src="js/main.js"></script>
+
+    <link href="css/dataTables.bootstrap.css" rel="stylesheet" />
+    <link href="css/dataTables.bootstrap.min.css" rel="stylesheet" />
+    <link href="css/dataTables.foundation.css" rel="stylesheet" />
+    <link href="css/dataTables.foundation.min.css" rel="stylesheet" />
+    <link href="css/dataTables.jqueryui.css" rel="stylesheet" />
+    <link href="css/dataTables.jqueryui.min.css" rel="stylesheet" />
+    <link href="css/jquery.dataTables.css" rel="stylesheet" />
+    <link href="css/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="css/jquery.dataTables_themeroller.css" rel="stylesheet" />
+</head>
+<body>
+    <div ng-controller="ServerSideProcessingCtrl as datatable">
+        <table datatable dt-options="datatable.dtOptions" dt-columns="datatable.dtColumns" class="row-border hover"></table>
+    </div>
+</body>
+</html>
