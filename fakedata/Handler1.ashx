@@ -22,7 +22,7 @@ public class Handler : IHttpHandler {
         {
             if (i < total) 
             {
-                data += String.Format("{1}{{\"name\":{0},\"gender\":\"gender{0}\",\"company\":\"company{0}\"}}", i, data.Length > 0 ? "," : "");
+                data += String.Format("{1}{{\"id\":{0},\"name\":{0},\"gender\":\"gender{0}\",\"company\":\"company{0}\"}}", i, data.Length > 0 ? "," : "");
             }
         }
        

@@ -10,6 +10,47 @@ app.controller('MainCtrl', [
         sortColumn: null
     };
 
+    var autoUpdate = false;
+    var updateInterval = setInterval(function () {
+        if (!autoUpdate) return;
+
+        var url;
+        url = 'http://localhost/fakedatagrid/Update.ashx?user=1&page=' + paginationOptions.pageNumber + '&pageSize=' + paginationOptions.pageSize + '&sort=' + paginationOptions.sort + '&sortColumn=' + paginationOptions.sortColumn;
+
+        $http.get(url)
+        .success(function (data) {
+            updateElements($scope.gridOptions.data, data);
+        });
+    }, 1000);
+
+    var updateElements = function (elements, data) {
+        //update
+        for (var i = 0; i < data.update.length; i++) {
+            for (var j = 0; j < elements.length; j++) {
+                if (data.update[i].id == elements[j].id) {
+                    elements[j] = data.update[i];
+                }
+            }
+        }
+        //delete
+        for (var i = 0; i < data.delete.length; i++) {
+            for (var j = elements.length - 1; j >= 0; j--) {
+                if (data.delete[i].id == elements[j].id) {
+                    elements.splice(j, 1);
+                }
+            }
+        }
+        //add
+        for (var i = 0; i < data.add.length; i++) {
+            for (var j = elements.length - 1; j >= 0; j--) {
+                if (data.add[i].id == elements[j].id) {
+                    elements.splice(j, 1);
+                }
+            }
+            elements.push(data.add[i]);
+        }
+    };
+
     $scope.gridOptions = {
         paginationPageSizes: [25, 50, 75],
         paginationPageSize: 25,
@@ -49,6 +90,7 @@ app.controller('MainCtrl', [
             $scope.gridOptions.totalItems = data.recordsTotal;
             var firstRow = (paginationOptions.pageNumber - 1) * paginationOptions.pageSize;
             $scope.gridOptions.data = data.data;
+            autoUpdate = true;
         });
     };
 
