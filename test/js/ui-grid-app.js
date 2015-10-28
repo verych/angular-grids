@@ -10,12 +10,11 @@ app.controller('MainCtrl', [
         sortColumn: null
     };
 
-    var autoUpdate = false;
     var updateInterval = setInterval(function () {
-        if (!autoUpdate) return;
+        if (!$scope.autoUpdater) return;
 
         var url;
-        url = 'http://localhost/fakedatagrid/Update.ashx?user=1&page=' + paginationOptions.pageNumber + '&pageSize=' + paginationOptions.pageSize + '&sort=' + paginationOptions.sort + '&sortColumn=' + paginationOptions.sortColumn;
+        url = 'http://localhost/fakedatagrid/Update.ashx?user=1&page=' + paginationOptions.pageNumber + '&pageSize=' + paginationOptions.pageSize + '&sort=' + paginationOptions.sort + '&sortColumn=' + paginationOptions.sortColumn + '&filter1=' + $scope.filterValue1 + '&filter2=' + $scope.filterValue2;
 
         $http.get(url)
         .success(function (data) {
@@ -51,6 +50,10 @@ app.controller('MainCtrl', [
         }
     };
 
+    $scope.filter = function () {
+        getPage();
+    };
+
     $scope.gridOptions = {
         paginationPageSizes: [25, 50, 75],
         paginationPageSize: 25,
@@ -83,14 +86,14 @@ app.controller('MainCtrl', [
 
     var getPage = function () {
         var url;
-        url = 'http://localhost/fakedatagrid/Handler1.ashx?user=1&page=' + paginationOptions.pageNumber + '&pageSize=' + paginationOptions.pageSize + '&sort=' + paginationOptions.sort + '&sortColumn=' + paginationOptions.sortColumn;
+  //      url = 'http://localhost:55419/Handler1.ashx?user=1&page=' + paginationOptions.pageNumber + '&pageSize=' + paginationOptions.pageSize + '&sort=' + paginationOptions.sort + '&sortColumn=' + paginationOptions.sortColumn + '&filter1=' + $scope.filterValue1 + '&filter2=' + $scope.filterValue2;
+        url = 'http://localhost/fakedatagrid/Handler1.ashx?user=1&page=' + paginationOptions.pageNumber + '&pageSize=' + paginationOptions.pageSize + '&sort=' + paginationOptions.sort + '&sortColumn=' + paginationOptions.sortColumn + '&filter1=' + $scope.filterValue1 + '&filter2=' + $scope.filterValue2;
 
         $http.get(url)
         .success(function (data) {
-            $scope.gridOptions.totalItems = data.recordsTotal;
+            $scope.gridOptions.totalItems = data.recordsFiltered;
             var firstRow = (paginationOptions.pageNumber - 1) * paginationOptions.pageSize;
             $scope.gridOptions.data = data.data;
-            autoUpdate = true;
         });
     };
 
